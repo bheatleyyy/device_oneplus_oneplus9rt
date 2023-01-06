@@ -11,7 +11,7 @@ set -e
 DEVICE=oneplus9rt
 VENDOR=oneplus
 
-# Load extract utilities and do some sanity checks.
+# Load extract_utils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
@@ -24,7 +24,7 @@ if [ ! -f "${HELPER}" ]; then
 fi
 source "${HELPER}"
 
-# Default to sanitizing the vendor folder before extraction.
+# Default to sanitizing the vendor folder before extraction
 CLEAN_VENDOR=true
 
 KANG=
@@ -53,7 +53,21 @@ if [ -z "${SRC}" ]; then
     SRC="adb"
 fi
 
-# Initialize the helper.
+function blob_fixup() {
+    case "${1}" in
+        odm/etc/camera/CameraHWConfiguration.config)
+            sed -i "/SystemCamera = / s/1;/0;/g" "${2}"
+            ;;
+        vendor/lib/libgui1_vendor.so)
+            "${PATCHELF}" --replace-needed "libui.so" "libui-v30.so" "${2}"
+            ;;
+        vendor/lib64/vendor.qti.hardware.camera.postproc@1.0-service-impl.so)
+            "${SIGSCAN}" -p "23 0B 00 94" -P "1F 20 03 D5" -f "${2}"
+            ;;
+    esac
+}
+
+# Initialize the helper
 setup_vendor "${DEVICE}" "${VENDOR}" "${ANDROID_ROOT}" false "${CLEAN_VENDOR}"
 
 extract "${MY_DIR}/proprietary-files.txt" "${SRC}" "${KANG}" --section "${SECTION}"

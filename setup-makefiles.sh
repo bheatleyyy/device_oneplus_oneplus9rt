@@ -10,8 +10,7 @@ set -e
 
 DEVICE=oneplus9rt
 VENDOR=oneplus
-
-# Load extract utilities and do some sanity checks.
+# Load extract_utils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
@@ -24,10 +23,10 @@ if [ ! -f "${HELPER}" ]; then
 fi
 source "${HELPER}"
 
-# Initialize the helper.
+# Initialize the helper
 setup_vendor "${DEVICE}" "${VENDOR}" "${ANDROID_ROOT}"
 
-# Warning headers and guards.
+# Warning headers and guards
 write_headers
 
 write_makefiles "${MY_DIR}/proprietary-files.txt" true
