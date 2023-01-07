@@ -106,6 +106,13 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-service_64 \
     vendor.qti.hardware.camera.postproc@1.0.vendor
 
+# Doze
+PRODUCT_PACKAGES += \
+    OplusDoze
+
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay-doze
+
 # DPM
 PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.dpm.idletimer.mode=default \
