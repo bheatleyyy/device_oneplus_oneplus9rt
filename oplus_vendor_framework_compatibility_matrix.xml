@@ -23,7 +23,15 @@
             <instance>cameraextensionservice</instance>
         </interface>
     </hal>
-    <!-- Display -->
+    <hal format="hidl" optional="true">
+        <name>vendor.oplus.hardware.cameraextension</name>
+        <version>1.0</version>
+        <interface>
+            <name>ICameraExtensionService</name>
+            <instance>cameraextensionservice</instance>
+        </interface>
+    </hal>
+   <!-- Display -->
     <hal format="hidl" optional="true">
         <name>vendor.pixelworks.hardware.display</name>
         <transport>hwbinder</transport>
